@@ -23,7 +23,9 @@ function CallbackContent() {
 
 export default function Callback() {
     return (
-        <Suspense fallback={<div>Loading profile…</div>}>
+        <Suspense fallback={
+            <Typography variant={"h4"}>Loading profile…</Typography>
+        }>
             <CallbackContent />
         </Suspense>
     )

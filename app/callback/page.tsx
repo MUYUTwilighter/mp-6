@@ -1,18 +1,30 @@
-"use client";
+'use client'
+import { Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { Container, Card, CardMedia, Typography } from '@mui/material'
 
-import {useSearchParams} from "next/navigation";
-import {Container} from "@mui/system";
-import {Card, CardMedia, Typography} from "@mui/material";
+function CallbackContent() {
+    const params = useSearchParams()
+    return (
+        <Card sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', p: 2 }}>
+            <CardMedia
+                component="img"
+                src={params.get('avatar_url') ?? ''}
+                alt="avatar"
+                sx={{ width: 200, height: 200, borderRadius: '50%' }}
+            />
+            <Container sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography variant="h6">Name: {params.get('name')}</Typography>
+                <Typography variant="h6">Email: {params.get('email')}</Typography>
+            </Container>
+        </Card>
+    )
+}
 
 export default function Callback() {
-    const params = useSearchParams();
-
-    return <Card sx={{display: "flex", flexDirection: "row", alignItems: "center", padding: "20px"}}>
-        <CardMedia sx={{width: "200px", height: "200px", borderRadius: "50%"}} component={"img"}
-                   src={params.get("avatar_url") + ""} alt={"avatar"}></CardMedia>
-        <Container sx={{display: "flex", flexDirection: "column"}}>
-            <Typography variant={"h6"}>Name: {params.get("name")}</Typography>
-            <Typography variant={"h6"}>Email: {params.get("email")}</Typography>
-        </Container>
-    </Card>
+    return (
+        <Suspense fallback={<div>Loading profile…</div>}>
+            <CallbackContent />
+        </Suspense>
+    )
 }
